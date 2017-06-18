@@ -1,0 +1,30 @@
+CHANGELOG Assignment 1.10
+Kyle Kempt CS 327 MWF 3:10-4
+
+April 16, 2017
+-I have decided to start this final project by choosing to implement the ranged combat as described on the assignment and also add one or two other functions as well.
+-Added another input to player_movement() for ranged combat, so player can select 'r' for it.
+-Added the fucntion ranged_combat() to combat.cpp. I'll use the cursor to track where the player wants to go. Since the window isn't in the same coordinates as the grid, I'll just track it through variables cursor_x and cursor_y. 
+-First I want to get the cursor onto where the player is.
+-Using wmove, I managed to get this to work
+-Next, I want to move it up/down/left/right. I'll set up if-else statements that take user input in a do-while loop and increment or decrement the cursor variables.
+-This works but I don't have anything to handle potential out of bounds seg faults, so I'll add more to the if-else statements that make sure the cursor cannot reach outside the limits of the window. 
+-I wasn't sure if I wanted to add a range variable to range weapons but I decided not to. I'll keep it within a 5 cell radius for both ranged weapons and spells.
+- Also forgot to add an error check that makes sure the ranged equipment slot is ranged or book. I'll treat BOOK as a spellbook instead of adding a new item type. The spells will have an AOE effect on the area they cast, which shouldn't be too difficult to implement.
+-Ends up I need to add the grid into my ranged combat function so I can make sure the selection cursor doesn't go into rock space territory.
+-Once I updated the if-else statements to check for empty grid spaces, the cursor is moving around only in rooms/corridors like it should. Now I need to add a cap to the movements, which I'll track through a variable that tracks the number of spaces moved in either direction so it doesn't exceed 5.
+-This works fine.
+-Added a for-loop that cycles through the monsterList vector to check all positions of monsters against the cell that had been selected for attack. If there's a match then I do the usual damage calculations and decrease the monster's HP like I did in attack(). 
+-For spells, I treated it kind of the same but I want to scan the 3x3 area around the selected cell to check for monsters. This way, using two nested for loops, I can damage any monster caught within the radius of the spell. 
+-I did some error checking too to handle instances where the radius might trasncend the grid so there woulgn't be any seg faults.
+
+April 18, 2017
+-I tested the ranged combat and it works fine. I want to add some ways for the player to regenerate health so I guess I'll turn the food objects into objects that can be accessed in the inventory and eaten to recover health.
+-Created a new function called recover() for combat.cpp that can be accessed by 'a' in player movement. 
+-I just copied and pasted from the menu function to pull up a menu of the inventory. Now the player input has to be a food item and from here I can add another class fucntion called recoveryItem() that takes a FOOD object once it is confirmed to be food and gets the damage value of the object and adds that to the current player's health value.
+-Also made sure the object disappears after a single use too.
+-This works since it is a simple concept
+
+April 19, 2017
+-Last thing I'll add is a function that allows the player to see their curent health value. 
+-With mwprintw, selecting 'a' returns the player function .getHP() to see the player's current HP value.
